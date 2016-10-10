@@ -8,8 +8,11 @@
         android:id="@+id/msgDisplay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#90CAF9"
-        android:layout_above="@+id/inputForm"/>
+        android:background="#B2DFDB"
+        android:paddingTop="3dp"
+        android:layout_above="@+id/inputForm"
+        android:divider="@null"
+        android:dividerHeight="4dp"/>
 
     <LinearLayout
         android:id="@+id/inputForm"
@@ -25,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.72"
             android:ems="10"
-            android:hint="@string/hint"
+            android:hint="@string/hint_chat"
             android:textColorHint="#BDBDBD"/>
 
         <ImageButton

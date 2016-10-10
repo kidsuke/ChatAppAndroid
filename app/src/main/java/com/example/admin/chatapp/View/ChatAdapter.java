@@ -1,6 +1,7 @@
 package com.example.admin.chatapp.View;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.BaseAdapter;
@@ -9,9 +10,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.admin.chatapp.Model.ChatMessage;
 import com.example.admin.chatapp.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+
+import static java.security.AccessController.getContext;
 
 /**
  * Created by ADMIN on 05-Oct-16.
@@ -21,10 +28,14 @@ public class ChatAdapter extends BaseAdapter{
     private ViewWrapper wrapper;
     private ArrayList<ChatMessage> list;
     private LayoutInflater inflater;
+    private Activity context;
+    private DateFormat dateFormat;
 
     public ChatAdapter(Activity context, ArrayList<ChatMessage> list){
         this.list = list;
+        this.context = context;
         inflater = LayoutInflater.from(context);
+        dateFormat = new SimpleDateFormat("HH:mm");
     }
 
     @Override
@@ -54,6 +65,7 @@ public class ChatAdapter extends BaseAdapter{
             wrapper = (ViewWrapper)row.getTag();
 
         TextView msgArea = wrapper.getMessageArea();
+        TextView time = wrapper.getTimeArea();
         LinearLayout container = wrapper.getContainer();
         LinearLayout container_parent = wrapper.getContainerParent();
 
@@ -61,10 +73,16 @@ public class ChatAdapter extends BaseAdapter{
             container.setBackgroundResource(R.drawable.bubble_send);
             container_parent.setGravity(Gravity.RIGHT);
             msgArea.setText(list.get(position).getMessage());
+            msgArea.setTextColor(Color.WHITE);
+            time.setText(setTime());
+            time.setTextColor(Color.WHITE);
         }else{
             container.setBackgroundResource(R.drawable.bubble_receive);
             container_parent.setGravity(Gravity.LEFT);
             msgArea.setText(list.get(position).getMessage());
+            msgArea.setTextColor(Color.BLACK);
+            time.setText(setTime());
+            time.setTextColor(Color.BLACK);
         }
 
         return row;
@@ -76,9 +94,15 @@ public class ChatAdapter extends BaseAdapter{
         notifyDataSetChanged();
     }
 
+    public String setTime(){
+        String date = dateFormat.format(Calendar.getInstance().getTime());
+        return date;
+    }
+
     class ViewWrapper{
         private View base;
         private TextView msg;
+        private TextView time;
         private LinearLayout container;
         private LinearLayout container_parent;
 
@@ -87,11 +111,17 @@ public class ChatAdapter extends BaseAdapter{
         }
 
         public TextView getMessageArea(){
-            if (msg == null){
+            if (msg == null)
                 msg = (TextView) base.findViewById(R.id.message_text);
-            }
 
             return msg;
+        }
+
+        public TextView getTimeArea(){
+            if (time == null)
+                time = (TextView) base.findViewById(R.id.time);
+
+            return time;
         }
 
         public LinearLayout getContainer(){

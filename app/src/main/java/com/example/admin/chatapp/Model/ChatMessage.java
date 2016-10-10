@@ -1,4 +1,4 @@
-package com.example.admin.chatapp.View;
+package com.example.admin.chatapp.Model;
 
 /**
  * Created by ADMIN on 06-Oct-16.

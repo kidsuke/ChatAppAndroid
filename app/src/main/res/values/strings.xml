@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">ChatApp</string>
-    <string name="hint">Type your messsage</string>
+    <string name="hint_chat">Type your messsage</string>
+    <string name="hint_ip">Enter IP Address</string>
+    <string name="ask_for_name">Enter Your Username</string>
+    <string name="submit_ip">Submit</string>
+    <string name="open_drawer">Open</string>
+    <string name="close_drawer">Close</string>
 </resources>

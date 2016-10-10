@@ -3,46 +3,50 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="204dp"
-        android:id="@+id/editText"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <TextView
-        android:text="TextView"
+        android:id="@+id/app_name"
+        android:text="@string/app_name"
+        android:textSize="30dp"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="11dp"
-        android:id="@+id/textView2" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="43dp"
-        android:id="@+id/textView3" />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="100dp" />
 
     <TextView
-        android:text="TextView"
+        android:id="@+id/login_status"
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_name"
+        android:layout_above="@+id/ip_address_form"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp" />
+
+    <LinearLayout
+        android:id="@+id/ip_address_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/ip_address_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:digits="0123456789."
+            android:inputType="numberDecimal"
+            android:hint="@string/hint_ip"
+            android:textColorHint="#BDBDBD"
+            android:ems="10"
+            android:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/submit"
+            android:text="@string/submit_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
 </RelativeLayout>

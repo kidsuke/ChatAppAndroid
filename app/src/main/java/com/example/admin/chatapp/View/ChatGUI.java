@@ -9,8 +9,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.example.admin.chatapp.Controller.ClientController;
-import com.example.admin.chatapp.Controller.HandleIncomingMessageTask;
+import com.example.admin.chatapp.Controller.MessageController;
+import com.example.admin.chatapp.Model.ChatMessage;
 import com.example.admin.chatapp.R;
 
 import java.io.PrintWriter;
@@ -20,10 +20,9 @@ import java.util.ArrayList;
  * Created by ADMIN on 05-Oct-16.
  */
 
-public class ChatGUI extends Fragment implements View.OnClickListener {
+public class ChatGUI extends Fragment implements View.OnClickListener{
     private EditText inputArea;
     private ChatAdapter adapter;
-    private HandleIncomingMessageTask msgTask;
     private ArrayList<ChatMessage> list;
     private PrintWriter writer;
 
@@ -37,13 +36,19 @@ public class ChatGUI extends Fragment implements View.OnClickListener {
         inputArea = (EditText) view.findViewById(R.id.inputArea);
         ImageButton sendMsgButton = (ImageButton) view.findViewById(R.id.sendMsgButton);
         ListView msgDisplay = (ListView) view.findViewById(R.id.msgDisplay);
+
         adapter = new ChatAdapter(getActivity(), list);
-
-
+        msgDisplay.setAdapter(adapter);
         msgDisplay.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+
         sendMsgButton.setOnClickListener(this);
 
-        msgDisplay.setAdapter(adapter);
+        try{
+            Thread t = new Thread(MessageController.getInstance());
+            t.start();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         return view;
     }
@@ -59,10 +64,11 @@ public class ChatGUI extends Fragment implements View.OnClickListener {
             case R.id.sendMsgButton:
                 String msg = inputArea.getText().toString();
                 if (!msg.equals("")){
-                    ClientController.getInstance().sendMessage(msg);
+                    MessageController.getInstance().sendMessage(msg);
                     getMessageToPrint(new ChatMessage(msg, true));
                     inputArea.setText("");
                 }
         }
     }
+
 }
