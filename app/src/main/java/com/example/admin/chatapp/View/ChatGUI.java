@@ -24,7 +24,6 @@ public class ChatGUI extends Fragment implements View.OnClickListener{
     private EditText inputArea;
     private ChatAdapter adapter;
     private ArrayList<ChatMessage> list;
-    private PrintWriter writer;
 
     public ChatGUI(){
         list = new ArrayList<ChatMessage>();

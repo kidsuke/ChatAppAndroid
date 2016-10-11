@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.admin.chatapp.Model.ChatMessage;
 import com.example.admin.chatapp.R;
@@ -39,7 +40,6 @@ public class MessageController implements Runnable{
     private Socket socket;
     private BufferedReader reader;
     private PrintWriter writer;
-    private ChatAdapter adapter;
     private ChatGUI gui;
     private static MessageController controller;
     private boolean mRun;
@@ -100,14 +100,24 @@ public class MessageController implements Runnable{
                 break;
         }
 
+        StringBuilder messBuilder = new StringBuilder(500);
+        //String line;
+        String msg;
         try {
             while (mRun) {
-                String msg;
-                if ((msg = reader.readLine()) == null)
-                    continue;
+
+                //if ((msg = reader.readLine()) == null)
+                    //continue;
+                while (!(msg = reader.readLine()).endsWith("[-r-]")){
+
+                    messBuilder.append(msg).append("\n");
+                }
+
+                messBuilder.append(msg.substring(0, msg.indexOf(" [-r-]")));
+                msg = messBuilder.toString();
 
                 update(msg);
-
+                messBuilder.setLength(0);
             }
         }catch (IOException e){
             System.out.println("Cannot read from socket");
@@ -126,6 +136,7 @@ public class MessageController implements Runnable{
                 LayoutInflater inflater = LayoutInflater.from(gui.getActivity());
                 View view = inflater.inflate(R.layout.name_alert, null);
                 final EditText text = (EditText)view.findViewById(R.id.user_name);
+                final TextView name_in_drawer = (TextView)gui.getActivity().findViewById(R.id.user_name_in_drawer);
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(gui.getActivity());
                 alertDialogBuilder.setView(view);
                 alertDialogBuilder
@@ -149,6 +160,7 @@ public class MessageController implements Runnable{
 
                         if (!text.getText().toString().equals("")){
                             sendMessage(":user " + text.getText().toString() + " [-r-]");
+                            name_in_drawer.setText(text.getText().toString());
                             wantToCloseDialog = true;
                         }
 
@@ -185,12 +197,6 @@ public class MessageController implements Runnable{
         }
         update("Invalid Username. Please try another one.");
         return false;
-    }
-
-    public void backToConnectActivity(){
-        Intent go_back_to_connect = new Intent(gui.getActivity(), ConnectActivity.class);
-        gui.getActivity().startActivity(go_back_to_connect);
-        gui.getActivity().finish();
     }
 }
 

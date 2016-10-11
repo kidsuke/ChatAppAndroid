@@ -1,6 +1,7 @@
 package com.example.admin.chatapp.View;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +37,11 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         submit_ip_button = (Button) findViewById(R.id.submit);
 
         submit_ip_button.setOnClickListener(this);
+
+        //Change app name's font
+        TextView app_name = (TextView) findViewById(R.id.app_name);
+        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/artbrush.tff");
+        app_name.setTypeface(face);
     }
 
     @Override
