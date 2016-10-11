@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import java.net.Socket;
  */
 
 public class ConnectActivity extends AppCompatActivity implements View.OnClickListener{
+    private TextView app_name;
     private TextView login_status;
     private EditText ip_address_input;
     private Button submit_ip_button;
@@ -39,10 +42,16 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         submit_ip_button.setOnClickListener(this);
 
         //Change app name's font
-        TextView app_name = (TextView) findViewById(R.id.app_name);
-        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/artbrush.tff");
+        app_name = (TextView) findViewById(R.id.app_name);
+        Typeface face = Typeface.createFromAsset(getResources().getAssets(),"Artbrush.ttf");
         app_name.setTypeface(face);
+
+        //Set animation for app name
+
+        Animation bounce = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.app_name_animation);
+        app_name.startAnimation(bounce);
     }
+
 
     @Override
     public void onClick(View v) {
