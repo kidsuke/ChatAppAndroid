@@ -6,4 +6,6 @@
     <string name="submit_ip">Submit</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
+    <string name="log_out">Log Out</string>
+    <string name="help_doc">Help Document</string>
 </resources>

@@ -1,15 +1,19 @@
 package com.example.admin.chatapp.Controller;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.example.admin.chatapp.Model.ChatMessage;
 import com.example.admin.chatapp.R;
 import com.example.admin.chatapp.View.ChatAdapter;
 import com.example.admin.chatapp.View.ChatGUI;
+import com.example.admin.chatapp.View.ConnectActivity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,6 +21,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 /**
  * Created by ADMIN on 07-Oct-16.
@@ -64,8 +70,8 @@ public class MessageController implements Runnable{
 
     public void terminateConnection(){
         try{
-            reader.close();
-            writer.close();
+            socket.shutdownOutput();
+            socket.shutdownInput();
             socket.close();
         }catch (IOException e){
             System.out.println("Cannot close socket");
@@ -89,6 +95,7 @@ public class MessageController implements Runnable{
 
         while(true) {
             namePrompt();
+
             if (checkUserName())
                 break;
         }
@@ -104,9 +111,12 @@ public class MessageController implements Runnable{
             }
         }catch (IOException e){
             System.out.println("Cannot read from socket");
+        }catch (NullPointerException npe){
+            System.out.println("Server crashed");
         }
 
-        terminateConnection();
+        if (gui.getActivity() != null)
+            gui.getActivity().finish();
     }
 
     public void namePrompt(){
@@ -148,6 +158,7 @@ public class MessageController implements Runnable{
                             alertDialog.dismiss();
                     }
                 });
+
             }
         });
     }
@@ -174,6 +185,12 @@ public class MessageController implements Runnable{
         }
         update("Invalid Username. Please try another one.");
         return false;
+    }
+
+    public void backToConnectActivity(){
+        Intent go_back_to_connect = new Intent(gui.getActivity(), ConnectActivity.class);
+        gui.getActivity().startActivity(go_back_to_connect);
+        gui.getActivity().finish();
     }
 }
 

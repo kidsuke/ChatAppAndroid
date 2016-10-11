@@ -22,6 +22,7 @@ import java.net.Socket;
 public class ConnectActivity extends AppCompatActivity implements View.OnClickListener{
     private TextView login_status;
     private EditText ip_address_input;
+    private Button submit_ip_button;
     private Socket socket;
     private boolean checkConnectResult;
 
@@ -32,7 +33,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
 
         login_status = (TextView) findViewById(R.id.login_status);
         ip_address_input = (EditText) findViewById(R.id.ip_address_input);
-        Button submit_ip_button = (Button) findViewById(R.id.submit);
+        submit_ip_button = (Button) findViewById(R.id.submit);
 
         submit_ip_button.setOnClickListener(this);
     }
@@ -42,7 +43,8 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()){
             case R.id.submit:
                 String ip_address = ip_address_input.getText().toString();
-                new ConnectTask().execute(ip_address);
+                ConnectTask ct = new ConnectTask();
+                ct.execute(ip_address);
         }
     }
 
@@ -52,11 +54,12 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
             Intent intent = new Intent(this, ChatActivity.class);
             MessageController.getInstance().setSocket(socket);
             startActivity(intent);
+            login_status.setText("");
         }else
             login_status.setText("Cannot connect to this IP Address");
     }
 
-    private class ConnectTask extends AsyncTask<String,String,Boolean> {
+    class ConnectTask extends AsyncTask<String,String,Boolean> {
 
         @Override
         protected Boolean doInBackground(String... params) {
@@ -77,6 +80,7 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         protected void onPostExecute(Boolean result){
             super.onPostExecute(result);
             toChatActivity(result);
+            this.cancel(true);
         }
     }
 }
