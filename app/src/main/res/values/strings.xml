@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ChatApp</string>
+    <string name="app_name">Rocketchat</string>
     <string name="hint_chat">Type your messsage</string>
     <string name="hint_ip">Enter IP Address</string>
     <string name="ask_for_name">Enter Your Username</string>

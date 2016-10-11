@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.admin.chatapp.Controller.MessageController;
@@ -47,9 +48,17 @@ public class ConnectActivity extends AppCompatActivity implements View.OnClickLi
         app_name.setTypeface(face);
 
         //Set animation for app name
-
         Animation bounce = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.app_name_animation);
         app_name.startAnimation(bounce);
+
+        //Set animtion for icon
+        ImageView rocket = (ImageView) findViewById(R.id.rocket_img) ;
+        Animation rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rocket_animation);
+        rocket.startAnimation(rotate);
+
+        ImageView planet = (ImageView) findViewById(R.id.planet_img);
+        Animation fade_in = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.planet_animation);
+        planet.startAnimation(fade_in);
     }
 
 
